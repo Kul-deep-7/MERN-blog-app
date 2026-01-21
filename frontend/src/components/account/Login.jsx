@@ -52,15 +52,26 @@ const Text = styled(Typography)`
     color: #878787;
     font-size: 14px;
 `
-
+const setInitialValue = {
+    Name : "",
+    Username: "",
+    Password: ""
+}
 
 
 const Login = () => {
     const [account, toggleAccount] = useState(true)
+    const [signUp, setSignUp] = useState(setInitialValue)
 
     const toggleAccountView = () => {
-        toggleAccount(!account); // flips true ↔ false
+        toggleAccount(!account); // flips true & false
     };
+
+    const onInputValue = (e) =>{
+        setSignUp({...signUp, [e.target.name] : e.target.value}) //e.target.name is dynamic key. Dynamic = changes automatically based on situation( not fixed but "name", "username", "password")
+    }
+
+
     const imageURL = 'https://www.sesta.it/wp-content/uploads/2021/03/logo-blog-sesta-trasparente.png'
 
   return ( 
@@ -78,9 +89,9 @@ const Login = () => {
             </Wrapper>
             :
             <Wrapper>
-                <TextField variant="standard" label="Enter Name"/> {/*label is just a placeholder */}
-                <TextField variant="standard" label="Enter UserName"/>
-                <TextField variant="standard" label="Enter Password"/>
+                <TextField variant="standard" onChange={onInputValue} name='Name' label="Enter Name"/> {/*label is just a placeholder */}
+                <TextField variant="standard" onChange={onInputValue} name='Username' label="Enter UserName"/>
+                <TextField variant="standard" onChange={onInputValue} name='Password' label="Enter Password"/>
 
                 <LoginButton variant="contained">SignUp</LoginButton>
                 <Text style={{textAlign : 'center'}}>OR</Text> {/*typography(text now) is basically <p> tag */}
