@@ -1,5 +1,6 @@
 import {useState} from 'react'
 import {Box, TextField, Button, styled, Typography} from '@mui/material' //Box is basically a div substitute in Material UI. it has sx prop which is inline styling without css files.    Box = div + styling + theme + convenience
+import { API } from '../../service/api.js'
 
 //styled in MUI is just “making your own component(customBox) with CSS attached to it. Instead of writing styles again and again, you lock them once and reuse
 //every time I call CustonBox styled component it will have these CSS... styled component name must start with CAPITAL. CSS needs semicolons
@@ -69,6 +70,13 @@ const Login = () => {
 
     const onInputValue = (e) =>{
         setSignUp({...signUp, [e.target.name] : e.target.value}) //e.target.name is dynamic key. Dynamic = changes automatically based on situation( not fixed but "name", "username", "password")
+    }
+
+    const signupUser = async() =>{
+        let response = await API.userSignup(signUp)
+        if(response.isSuccess){
+            setSignUp(sign)
+        }
     }
 
 
