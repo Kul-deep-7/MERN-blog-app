@@ -3,9 +3,16 @@ import cors from "cors"
 
 const app = express()
 
-app.use(cors())
-
 app.use(express.json());
+
+app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}))
+
+
 app.use(express.urlencoded({ extended: true }));
 
 
@@ -14,4 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 
 import router from "./routes/route.js";
 
-app.use("/api/users", router) //http://localhost:8000/api/users ../signup
+app.use("/", router) //http://localhost:7000/ ../signup
+
+
+export default app;

@@ -7,7 +7,7 @@ const axiosInstance = axios.create({
     baseURL: API_URL,
     timeout: 10000,
     headers: {
-        "Content-Type" : "application/json"
+        "content-type" : "application/json"
     }
 })
 
@@ -29,45 +29,58 @@ axiosInstance.interceptors.response.use(
     }
 )
 
-const processResponse = (response) =>{
-    if(response?.status === 200){
-        return{ isSuccess: true, data: response.data}
-    }else{
-        return{
+// api.js - Fix the processResponse function
+
+const processResponse = (response) => {
+    if (response?.status === 200 || response?.status === 201) {
+        return { 
+            isSuccess: true, 
+            data: response.data 
+        }
+    } else {
+        // Extract error message from response data
+        const errorData = response.data || {};
+        return {
             isFailure: true,
+            isError: true, // Add this for consistency
             status: response?.status,
-            msg: response?.msg,
-            code: response?.code
+            msg: errorData.message || errorData.msg || 'Something went wrong',
+            code: response?.status, // Use status code as code
+            data: errorData // Pass entire error object for detailed handling
         }
     }
 }
 
-const processError = (error)=>{
-    if(error.response){
-        console.log("Error in response:", error.toJSON())
+const processError = (error) => {
+    if (error.response) {
+        console.log("Error in response:", error.response.data);
+        // Extract server error message from response data
+        const serverError = error.response.data || {};
         return {
             isError: true,
-            msg: API_NOTIFICATION_MESSAGES.responseFailure,
-            code: error.response.status
+            isFailure: true,
+            msg: serverError.message || serverError.msg || API_NOTIFICATION_MESSAGES.responseFailure.message,
+            code: error.response.status,
+            data: serverError // Pass server error details
         }
-    }else if(error.request){
-        console.log("Error in request:", error.toJSON())
+    } else if (error.request) {
+        console.log("Error in request:", error.toJSON());
         return {
             isError: true,
-            msg: API_NOTIFICATION_MESSAGES.requestFailure,
+            isFailure: true,
+            msg: API_NOTIFICATION_MESSAGES.requestFailure.message,
             code: ""
         }
-    }else{
-        console.log("Error in network:", error.toJSON())
+    } else {
+        console.log("Error in network:", error.toJSON());
         return {
             isError: true,
-            msg: API_NOTIFICATION_MESSAGES.networkError,
+            isFailure: true,
+            msg: API_NOTIFICATION_MESSAGES.networkError.message,
             code: ""
         }
-        
     }
 }
-
 const API = {}
 
 for (const [key, value] of Object.entries(SERVICE_URLS)){

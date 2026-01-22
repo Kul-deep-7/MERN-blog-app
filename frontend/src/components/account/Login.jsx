@@ -1,6 +1,7 @@
 import {useState} from 'react'
 import {Box, TextField, Button, styled, Typography} from '@mui/material' //Box is basically a div substitute in Material UI. it has sx prop which is inline styling without css files.    Box = div + styling + theme + convenience
-import { API } from '../../service/api.js'
+import axios from 'axios'
+
 
 //styled in MUI is just “making your own component(customBox) with CSS attached to it. Instead of writing styles again and again, you lock them once and reuse
 //every time I call CustonBox styled component it will have these CSS... styled component name must start with CAPITAL. CSS needs semicolons
@@ -63,21 +64,46 @@ const setInitialValue = {
 const Login = () => {
     const [account, toggleAccount] = useState(true)
     const [signUp, setSignUp] = useState(setInitialValue)
+    const [error, showError] = useState('');
+
 
     const toggleAccountView = () => {
         toggleAccount(!account); // flips true & false
+        setSignUp(setInitialValue);
     };
 
-    const onInputValue = (e) =>{
-        setSignUp({...signUp, [e.target.name] : e.target.value}) //e.target.name is dynamic key. Dynamic = changes automatically based on situation( not fixed but "name", "username", "password")
-    }
+    const onInputValue = (e) => {
+    // console.log("onInputValue triggered:");
+    // console.log("e.target.name:", e.target.name);
+    // console.log("e.target.value:", e.target.value);
+    
+    setSignUp({...signUp, [e.target.name]: e.target.value});
+}
 
-    const signupUser = async() =>{
-        let response = await API.userSignup(signUp)
-        if(response.isSuccess){
-            setSignUp(sign)
-        }
+    const API_URL = "http://localhost:7000"
+
+
+   const signupUser = async () => {
+    try {
+        console.log("=== FRONTEND DEBUG ===");
+        console.log("Current signUp state:", signUp);
+        console.log("Sending to backend...");
+        
+        const response = await axios.post(`${API_URL}/signup`, signUp, // Make sure this has data
+            {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
+        
+        console.log("Signup Success:", response.data);
+        toggleAccount(true);
+        setSignUp(setInitialValue);
+    } catch (error) {
+        console.error("Signup Error:", error.response?.data || error.message);
     }
+};
 
 
     const imageURL = 'https://www.sesta.it/wp-content/uploads/2021/03/logo-blog-sesta-trasparente.png'
@@ -97,11 +123,11 @@ const Login = () => {
             </Wrapper>
             :
             <Wrapper>
-                <TextField variant="standard" onChange={onInputValue} name='Name' label="Enter Name"/> {/*label is just a placeholder */}
-                <TextField variant="standard" onChange={onInputValue} name='Username' label="Enter UserName"/>
-                <TextField variant="standard" onChange={onInputValue} name='Password' label="Enter Password"/>
+                <TextField variant="standard" onChange={onInputValue} name='Name'  value={signUp.Name || ''} label="Enter Name"/> {/*label is just a placeholder */}
+                <TextField variant="standard" onChange={onInputValue} name='Username'   value={signUp.Username || ''} label="Enter UserName"/>
+                <TextField variant="standard" onChange={onInputValue} name='Password'  value={signUp.Password || ''}  label="Enter Password"/>
 
-                <LoginButton variant="contained">SignUp</LoginButton>
+                <LoginButton variant="contained" onClick={() => signupUser()}>SignUp</LoginButton>
                 <Text style={{textAlign : 'center'}}>OR</Text> {/*typography(text now) is basically <p> tag */}
                 <SignupButton variant="text" onClick={toggleAccountView}>Already have an account</SignupButton>
             </Wrapper>

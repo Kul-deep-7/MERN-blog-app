@@ -11,7 +11,7 @@ export const API_NOTIFICATION_MESSAGES ={
     title: 'Error',
     message: 'An Error occured while fetching response from server. Plz try again'
    },
-   requestFailur: {
+   requestFailure: {
     title: "Error",
     message: "An Error occured while parsing request data"
    },

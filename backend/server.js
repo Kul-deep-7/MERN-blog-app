@@ -3,7 +3,8 @@ dotenv.config();
 
 import express from "express"
 import connectDB from "./database/db.js"
-const app = express()
+import app from "./app.js"
+
 
 connectDB()
 .then(()=>{
