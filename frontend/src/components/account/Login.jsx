@@ -84,10 +84,17 @@ const Login = () => {
 
 
    const signupUser = async () => {
+
+    if (!signUp.Name || !signUp.Username || !signUp.Password) {
+        showError('Please fill all the details');
+        return; 
+    }
+    showError('');
+
     try {
-        console.log("=== FRONTEND DEBUG ===");
-        console.log("Current signUp state:", signUp);
-        console.log("Sending to backend...");
+        // console.log("=== FRONTEND DEBUG ===");
+        // console.log("Current signUp state:", signUp);
+        // console.log("Sending to backend...");
         
         const response = await axios.post(`${API_URL}/signup`, signUp, // Make sure this has data
             {
@@ -126,6 +133,12 @@ const Login = () => {
                 <TextField variant="standard" onChange={onInputValue} name='Name'  value={signUp.Name || ''} label="Enter Name"/> {/*label is just a placeholder */}
                 <TextField variant="standard" onChange={onInputValue} name='Username'   value={signUp.Username || ''} label="Enter UserName"/>
                 <TextField variant="standard" onChange={onInputValue} name='Password'  value={signUp.Password || ''}  label="Enter Password"/>
+
+                 {error && ( <Typography style={{ color: 'red', fontSize: '14px', marginTop: '10px' }}>{error}</Typography>)}
+{ /*Already have an error state and an onClick handler for signupUser. Inside signupUser, you run validation, and if any field is empty you call showError('Please fill all the details'), 
+which updates the error state with a string. If all fields are filled, you call showError(''), which makes error an empty string. In the JSX, the {error && <Typography>{error}</Typography>} 
+part is pure JavaScript using A && B logic: when error is an empty string it is falsy, so nothing is rendered, and when error contains a string it is truthy, so the <Typography> component renders. 
+Here, showError is the setter function returned by useState, and error is the current state value that React uses to decide whether to show the error message or not.*/}
 
                 <LoginButton variant="contained" onClick={() => signupUser()}>SignUp</LoginButton>
                 <Text style={{textAlign : 'center'}}>OR</Text> {/*typography(text now) is basically <p> tag */}
