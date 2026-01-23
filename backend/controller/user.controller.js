@@ -4,6 +4,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import {User} from "../models/user.models.js"
 import jwt from "jsonwebtoken"
 
+
 const generateAccessAndRefreshTokens = async(userId)=> {
     try {
         const user = await User.findById(userId)
@@ -134,6 +135,32 @@ return res
 
 
 })
+
+const logoutUser = asyncHandler(async(req,res)=>{
+    await User.findByIdAndUpdate(
+        req.user._id,
+         {
+            $set:{
+                refreshToken : undefined
+            }
+        },
+        {
+            new : true
+        }
+    )
+
+     const options = {
+    httpOnly: true, 
+    secure: true 
+}
+
+    return res
+    .status(200)
+    .clearCookie("accessToken", options) //we stored accessToken in key value pairs in login controller here we only need key
+    .clearCookie("refreshToken", options)
+    .json(new ApiResponse(200, {}, "User Logged out successfully"))
+
+})
         
 
-export {signupUser, loginUser}
+export {signupUser, loginUser, logoutUser}
