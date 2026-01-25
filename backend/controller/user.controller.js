@@ -119,8 +119,14 @@ const loggedInUser = await User.findById(user._id)
 
 const options = {
     httpOnly: true, 
-    secure: true
+    secure: true,
 }
+
+
+// console.log("🔐 About to set cookies:")
+// console.log("accessToken:", accessToken?.substring(0, 20) + "...")
+// console.log("refreshToken:", refreshToken?.substring(0, 20) + "...")
+// console.log("options:", options)
 
 return res
 .status(200)
@@ -151,7 +157,7 @@ const logoutUser = asyncHandler(async(req,res)=>{
 
      const options = {
     httpOnly: true, 
-    secure: true 
+    secure: true,
 }
 
     return res

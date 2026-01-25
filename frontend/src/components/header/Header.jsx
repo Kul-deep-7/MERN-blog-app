@@ -23,17 +23,48 @@ export default function Header() {
     const API_URL = "http://localhost:7000"
 
 
-    const handleLogout = async function () {
-        await axios.post(`${API_URL}/logout`,{})
-    }
+const handleLogout = async function (e) {
+    e.preventDefault()
 
+/* // WITHOUT e.preventDefault() <a href="#" onClick={handleLogout}>LOGOUT</a>
+// What happens:
+// 1. onClick fires → handleLogout() starts (async)
+// 2. Browser doesn't wait → immediately navigates to href="#"
+// 3. Logout request might not complete before page changes
+// 4. User sees broken behavior
+
+// WITH e.preventDefault() <a href="#" onClick={handleLogout}>LOGOUT</a>
+// What happens:
+// 1. onClick fires → handleLogout() starts
+// 2. e.preventDefault() stops the default link behavior
+// 3. Logout completes → THEN navigate('/login')
+// 4. Clean logout flow
+
+ */   
+    try {
+        // console.log("Attempting logout...")
+        // console.log("Current cookies:", document.cookie)
+            
+        const response = await axios.post(`${API_URL}/logout`, {}, {
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        console.log("Logout response:", response.data)
+        
+    } catch (error) {
+        console.error('Logout error:', error.response?.data || error.message)
+        
+    }
+}
   return (
     <Component>
         <Container>
-            <Link>HOME</Link>
-            <Link>ABOUT</Link>
-            <Link>CONTACT</Link>
-            <Link>LOGOUT</Link>
+            <Link to="/home">HOME</Link>
+            <Link to="/about">ABOUT</Link>
+            <Link to="contact">CONTACT</Link>
+            <Link to="/login" onClick={handleLogout}>LOGOUT</Link>
         </Container>
     </Component>
   )

@@ -6,18 +6,21 @@ const app = express()
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
 
-app.use(cors({
+
+const corsOptions = {
     origin: "http://localhost:3000",
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}))
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    optionsSuccessStatus: 200,
+    maxAge: 86400
+}
 
+app.use(cors(corsOptions))
 
+app.use(cookieParser());
 
-app.use(express.urlencoded({ extended: true }));
 
 
 

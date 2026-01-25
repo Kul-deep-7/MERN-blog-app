@@ -123,7 +123,8 @@ const Login = () => {
             {
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
+                withCredentials: true
             }
         );
         
@@ -144,7 +145,12 @@ const loginUser = async function () {
     }
     setMsg('');
     try {
-        const response = await axios.post(`${API_URL}/login`, login, {headers:{'Content-Type': 'application/json'}})
+        const response = await axios.post(`${API_URL}/login`, login, {
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true
+        })
         console.log("Login Success:", response.data);
 
          setAccount({
