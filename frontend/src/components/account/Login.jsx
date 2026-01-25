@@ -1,6 +1,8 @@
-import {useState} from 'react'
+import {useContext, useState} from 'react'
 import {Box, TextField, Button, styled, Typography} from '@mui/material' //Box is basically a div substitute in Material UI. it has sx prop which is inline styling without css files.    Box = div + styling + theme + convenience
 import axios from 'axios'
+import { DataContext } from '../../context/DataProvider'
+
 
 
 //styled in MUI is just “making your own component(customBox) with CSS attached to it. Instead of writing styles again and again, you lock them once and reuse
@@ -60,11 +62,20 @@ const setInitialValue = {
     Password: ""
 }
 
+const loginInitialValue ={
+    Username: "",
+    Password: ""
+}
+
 
 const Login = () => {
     const [account, toggleAccount] = useState(true)
     const [signUp, setSignUp] = useState(setInitialValue)
+    const [login, setLogin]=useState(loginInitialValue)
     const [error, showError] = useState('');
+    const [msg, setMsg] = useState('')
+
+    const { setAccount } = useContext(DataContext);  //Hey React, give me whatever DataProvider stored in DataContext which is value={{ account, setAccount }}
 
 
     const toggleAccountView = () => {
@@ -77,8 +88,13 @@ const Login = () => {
     // console.log("e.target.name:", e.target.name);
     // console.log("e.target.value:", e.target.value);
     
-    setSignUp({...signUp, [e.target.name]: e.target.value});
-}
+    setSignUp({...signUp, [e.target.name]: e.target.value}); //dynamic key it is A dynamic key means:the property name is not fixed.It comes from a variable or expression at runtime.
+    //The object (setInitialValue) keys are static in the initial state, but they are updated dynamically using computed property names based on the input’s name attribute.
+    }
+
+    const onLoginValue=(e)=>{
+        setLogin({...login, [e.target.name]:e.target.value})
+    }
 
     const API_URL = "http://localhost:7000"
 
@@ -90,6 +106,11 @@ const Login = () => {
         return; 
     }
     showError('');
+
+    if (signUp.Password.length < 8) {
+    showError('Password must be at least 8 characters long');
+    return;
+}
 
     try {
         // console.log("=== FRONTEND DEBUG ===");
@@ -113,6 +134,33 @@ const Login = () => {
 };
 
 
+const loginUser = async function () {
+        if (!login.Username || !login.Password) {
+        setMsg("Please fill all login details");
+        return;
+    }
+    setMsg('');
+
+
+    try {
+        const response = await axios.post(`${API_URL}/login`, login, {headers:{'Content-Type': 'application/json'}})
+        console.log("Login Success:", response.data);
+
+         setAccount({
+            Username: response.data.Username,
+            Name: response.data.Name
+        });         //setAccount receives the response and updates the account state inside the Context, making it available to all components that consume it.
+
+        setLogin(loginInitialValue)
+    } catch (error) {
+         setMsg(
+            error.response?.data?.message || "Invalid username or password"
+        );
+    }
+    
+}
+
+
     const imageURL = 'https://www.sesta.it/wp-content/uploads/2021/03/logo-blog-sesta-trasparente.png'
 
   return ( 
@@ -122,16 +170,18 @@ const Login = () => {
             {
                 account === true ?
             <Wrapper>
-                <TextField variant="standard" label="Enter Username"/> {/*label is just a placeholder */}
-                <TextField variant="standard" label="Enter Password"/>
-                <LoginButton variant="contained">Login</LoginButton>
+                <TextField variant="standard" onChange={onLoginValue} name='Username' label="Enter Username"/> {/*label is just a placeholder */}
+                <TextField variant="standard" onChange={onLoginValue} name='Password' label="Enter Password"/>
+                {msg && (<Typography style={{ color: 'red', fontSize: '14px', marginTop: '10px' }}>{msg} </Typography>)}
+                <LoginButton variant="contained" onClick={loginUser}>Login</LoginButton>
                 <Text style={{textAlign : 'center'}}>OR</Text> {/*typography(text now) is basically <p> tag */}
                 <SignupButton variant="text" onClick={toggleAccountView}>Create an account</SignupButton>
             </Wrapper>
             :
             <Wrapper>
                 <TextField variant="standard" onChange={onInputValue} name='Name'  value={signUp.Name || ''} label="Enter Name"/> {/*label is just a placeholder */}
-                <TextField variant="standard" onChange={onInputValue} name='Username'   value={signUp.Username || ''} label="Enter UserName"/>
+                <TextField variant="standard" onChange={onInputValue} name='Username'   value={signUp.Username || ''} label="Enter UserName"/>{/* First, React looks at signUp.Name . If signUp.Name exists and is truthy, use it If it is undefined, null, or empty, fall back to ''. 
+                                                                                                                                                signUp is the state object, and Name is a key inside that object accessed using dot notation*/}
                 <TextField variant="standard" onChange={onInputValue} name='Password'  value={signUp.Password || ''}  label="Enter Password"/>
 
                  {error && ( <Typography style={{ color: 'red', fontSize: '14px', marginTop: '10px' }}>{error}</Typography>)}
