@@ -1,0 +1,134 @@
+The axios.post shape
+axios.post(url, data, config)
+
+So your line:
+axios.post(`${API_URL}/login`, login, { headers: { 'Content-Type': 'application/json' } })
+
+maps to:
+
+Position	    What it is	        In your code
+1st	            Where to send	    ${API_URL}/login
+2nd	            What to send	    login
+3rd	            How to send	        headers, options
+
+Now the important part: what is login?
+login is frontend state, nothing more, nothing less.
+const [login, setLogin] = useState({
+  Username: "",
+  Password: ""
+});
+
+So at runtime, login looks like:
+{
+  Username: "xyz",
+  Password: "abc"
+}
+That’s it.
+
+
+What axios does with it
+
+When you pass login as the 2nd parameter:
+axios.post("/login", login)
+
+Axios: 
+Takes that JS object
+Converts it into JSON
+Sends it in the request body
+
+So the HTTP request becomes:
+POST /login
+Content-Type: application/json
+{
+  "Username": "kuldeep",
+  "Password": "12345678"
+}
+
+What happens on the backend 
+
+Backend receives request (Express)
+Your route: router.post("/login", loginUser)
+
+In your backend controller(Controller runs):
+const { Username, Password } = req.body;
+req.body is exactly the login object you sent.
+req.body === {
+  Username: "xyz",
+  Password: "abc"
+}
+This came directly from login state.
+
+Backend logic executes.
+
+Backend sends the response:
+return res
+  .status(200)
+  .cookie("accessToken", accessToken, { httpOnly: true, secure: true })
+  .cookie("refreshToken", refreshToken, { httpOnly: true, secure: true })
+  .json(
+    new ApiResponse(200, {
+      user: loggedInUser,
+      accessToken,
+      refreshToken
+    }, "user logged in successfully")
+  );
+
+
+What actually goes back?
+HTTP Response body:
+{
+  "statusCode": 200,
+  "data": {
+    "user": {
+      "_id": "...",
+      "Username": "kuldeep",
+      "Name": "Kuldeep"
+    },
+    "accessToken": "eyJhbGciOiJI...",
+    "refreshToken": "eyJhbGciOiJI..."
+  },
+  "message": "user logged in successfully"
+}
+Plus (important):
+Cookies are set automatically by the browser
+You do not see cookies in response.data
+
+
+Frontend receives response 
+Axios resolves the promise:
+const response = await axios.post(...)
+
+Now:
+response.data === {
+  statusCode: 200,
+  data: {
+    user: {...},
+    accessToken: "...",
+    refreshToken: "..."
+  },
+  message: "user logged in successfully"
+}
+
+So when you do:
+console.log(response.data);
+You’re seeing exactly what backend sent via .json()
+
+
+Full flow in one diagram 
+User types credentials
+        ↓
+React useState (login)
+        ↓
+axios.post(url, login)
+        ↓
+Express route
+        ↓
+Controller (req.body)
+        ↓
+DB + JWT generation
+        ↓
+res.json(...)
+        ↓
+Axios resolves promise
+        ↓
+response.data

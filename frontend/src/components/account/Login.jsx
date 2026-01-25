@@ -2,6 +2,8 @@ import {useContext, useState} from 'react'
 import {Box, TextField, Button, styled, Typography} from '@mui/material' //Box is basically a div substitute in Material UI. it has sx prop which is inline styling without css files.    Box = div + styling + theme + convenience
 import axios from 'axios'
 import { DataContext } from '../../context/DataProvider'
+import { useNavigate } from 'react-router-dom' 
+//useNavigate is a React hook that lets you programmatically change pages in your app.
 
 
 
@@ -76,7 +78,7 @@ const Login = () => {
     const [msg, setMsg] = useState('')
 
     const { setAccount } = useContext(DataContext);  //Hey React, give me whatever DataProvider stored in DataContext which is value={{ account, setAccount }}
-
+    const navigate = useNavigate()
 
     const toggleAccountView = () => {
         toggleAccount(!account); // flips true & false
@@ -133,6 +135,7 @@ const Login = () => {
     }
 };
 
+//axios.post(url, data, config) url:Where to send, data: What to send, config: How to send(headers & options)
 
 const loginUser = async function () {
         if (!login.Username || !login.Password) {
@@ -140,8 +143,6 @@ const loginUser = async function () {
         return;
     }
     setMsg('');
-
-
     try {
         const response = await axios.post(`${API_URL}/login`, login, {headers:{'Content-Type': 'application/json'}})
         console.log("Login Success:", response.data);
@@ -152,6 +153,7 @@ const loginUser = async function () {
         });         //setAccount receives the response and updates the account state inside the Context, making it available to all components that consume it.
 
         setLogin(loginInitialValue)
+        navigate('/home')
     } catch (error) {
          setMsg(
             error.response?.data?.message || "Invalid username or password"
