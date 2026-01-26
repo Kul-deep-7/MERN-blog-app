@@ -7,6 +7,9 @@ import Home from './components/home/Home';
 import Header from './components/header/Header';
 import ProtectedRoute from './routes/ProtectedRoute';
 
+
+
+//If a component should appear only when the user is authenticated, it belongs inside the ProtectedRoute layout, not directly in App.js. <Header /> is in ProtectedRoute.jsx
 function App() {
   return (
     <div>
@@ -14,11 +17,10 @@ function App() {
         <div style={{marginTop: 64 }}>
           <AuthProvider>
           <DataProvider>
-            <Header />
             <Routes>
               <Route path='/login'element={<Login />} />
                 <Route element={<ProtectedRoute />} >
-                  <Route path='/home'element={<Home />} />
+                  <Route path='/'element={<Home />} />
                 </Route>
             </Routes>
           </DataProvider>

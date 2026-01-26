@@ -2,7 +2,7 @@ import {useContext, useState} from 'react'
 import {Box, TextField, Button, styled, Typography} from '@mui/material' //Box is basically a div substitute in Material UI. it has sx prop which is inline styling without css files.    Box = div + styling + theme + convenience
 import axios from 'axios'
 import { DataContext } from '../../context/DataProvider'
-
+import { AuthContext } from '../../context/AuthContext'
 import { useNavigate } from 'react-router-dom' 
 //useNavigate is a React hook that lets you programmatically change pages in your app.
 
@@ -77,7 +77,7 @@ const Login = () => {
     const [login, setLogin]=useState(loginInitialValue)
     const [error, showError] = useState('');
     const [msg, setMsg] = useState('')
-
+    const { setUser } = useContext(AuthContext); 
     const { setAccount } = useContext(DataContext);  //Hey React, give me whatever DataProvider stored in DataContext which is value={{ account, setAccount }}
     const navigate = useNavigate()
 
@@ -158,9 +158,9 @@ const loginUser = async function () {
             Username: response.data.Username,
             Name: response.data.Name
         });         //setAccount receives the response and updates the account state inside the Context, making it available to all components that consume it.
-
+        setUser(response.data)  //Now when users login, AuthContext updates immediately instead of waiting for a page refresh.
         setLogin(loginInitialValue)
-        navigate('/home')
+        navigate('/')
     } catch (error) {
          setMsg(
             error.response?.data?.message || "Invalid username or password"

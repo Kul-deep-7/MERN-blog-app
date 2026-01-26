@@ -17,7 +17,12 @@ export const AuthProvider = ({ children }) => {
         });
         
         console.log(" Auth response:", res.data);
-        
+
+        console.log("🔍 Full response structure:", res);
+        console.log("🔍 res.data:", res.data);
+        console.log("🔍 res.data.data:", res.data.data);
+        console.log("🔍 res.data.data.user:", res.data.data?.user);
+                
         // Your ApiResponse wraps data in "data" property
         // So it's res.data.data.user, not res.data.user
         setUser(res.data.data?.user || null); //if we write is as res.data.user.. when we refresh the page we go back to login page despite user being not logged out and access and refreshtoken stays in application.. so we use res.data.data?user so for now when we refresh the home page it stays on the same page cuz user is logged in..

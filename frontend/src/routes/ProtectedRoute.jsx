@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import Header from "../components/header/Header";
 
 const ProtectedRoute = () => {
   const { user, loading } = useContext(AuthContext);
@@ -11,7 +12,13 @@ const ProtectedRoute = () => {
     return <Navigate to="/login" replace />;
   }
 
-  return <Outlet />;
+  return (
+    <>
+    <Header />
+    <Outlet />
+    </>
+  
+);
 };
 
 export default ProtectedRoute;
