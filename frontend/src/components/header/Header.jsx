@@ -1,5 +1,5 @@
 import { AppBar, Toolbar, Typography, styled } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link , useNavigate} from "react-router-dom";
 import React from 'react'
 import axios from "axios";
 
@@ -19,7 +19,7 @@ const Container = styled(Toolbar)`
 
 
 export default function Header() {
-
+    const navigate = useNavigate()
     const API_URL = "http://localhost:7000"
 
 
@@ -43,7 +43,7 @@ const handleLogout = async function (e) {
  */   
     try {
         // console.log("Attempting logout...")
-        // console.log("Current cookies:", document.cookie)
+         //console.log("Current cookies:", document.cookie) to check if cookies are visible in console log which they should not be
             
         const response = await axios.post(`${API_URL}/logout`, {}, {
             withCredentials: true,
@@ -52,7 +52,7 @@ const handleLogout = async function (e) {
             }
         })
         console.log("Logout response:", response.data)
-        
+        navigate("/login")
     } catch (error) {
         console.error('Logout error:', error.response?.data || error.message)
         

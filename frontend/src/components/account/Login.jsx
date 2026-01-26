@@ -2,6 +2,7 @@ import {useContext, useState} from 'react'
 import {Box, TextField, Button, styled, Typography} from '@mui/material' //Box is basically a div substitute in Material UI. it has sx prop which is inline styling without css files.    Box = div + styling + theme + convenience
 import axios from 'axios'
 import { DataContext } from '../../context/DataProvider'
+
 import { useNavigate } from 'react-router-dom' 
 //useNavigate is a React hook that lets you programmatically change pages in your app.
 
@@ -128,7 +129,7 @@ const Login = () => {
             }
         );
         
-        console.log("Signup Success:", response.data);
+        //console.log("Signup Success:", response.data);
         toggleAccount(true);
         setSignUp(setInitialValue);
     } catch (error) {
@@ -151,7 +152,7 @@ const loginUser = async function () {
             },
             withCredentials: true
         })
-        console.log("Login Success:", response.data);
+        //console.log("Login Success:", response.data);
 
          setAccount({
             Username: response.data.Username,

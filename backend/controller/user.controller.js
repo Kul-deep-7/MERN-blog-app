@@ -119,7 +119,7 @@ const loggedInUser = await User.findById(user._id)
 
 const options = {
     httpOnly: true, 
-    secure: true,
+    secure: false, //true in production & false in development
 }
 
 
@@ -157,7 +157,7 @@ const logoutUser = asyncHandler(async(req,res)=>{
 
      const options = {
     httpOnly: true, 
-    secure: true,
+    secure: false,
 }
 
     return res
@@ -167,6 +167,16 @@ const logoutUser = asyncHandler(async(req,res)=>{
     .json(new ApiResponse(200, {}, "User Logged out successfully"))
 
 })
-        
+   
 
-export {signupUser, loginUser, logoutUser}
+const getMe = asyncHandler(async(req,res)=>{
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(200,{
+            user: req.user
+        })
+    )
+})
+
+export {signupUser, loginUser, logoutUser, getMe}
