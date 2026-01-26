@@ -4,7 +4,7 @@ import { Button, Table ,TableBody,TableCell, TableHead, TableRow, styled } from 
 
 import React from 'react'
 import { categories } from '../../constants/data'
-
+import { Link } from 'react-router-dom'
 
 const StyledButton =styled(Button)`
     margin:20px;
@@ -18,7 +18,10 @@ const StyledButton =styled(Button)`
 export default function Categories() {
   return (
     <>
+    <Link to='/create'>
         <StyledButton>Create Blog</StyledButton>
+    </Link>
+        
 
         <Table>
             <TableHead>

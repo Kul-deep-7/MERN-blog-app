@@ -6,6 +6,7 @@ import Login from './components/account/Login';
 import Home from './components/home/Home';
 import Header from './components/header/Header';
 import ProtectedRoute from './routes/ProtectedRoute';
+import CreatePost from './components/create/CreatePost';
 
 
 
@@ -19,8 +20,13 @@ function App() {
           <DataProvider>
             <Routes>
               <Route path='/login'element={<Login />} />
+
                 <Route element={<ProtectedRoute />} >
                   <Route path='/'element={<Home />} />
+                </Route>
+
+                <Route element={<ProtectedRoute />} >
+                  <Route path='/create'element={<CreatePost />} />
                 </Route>
             </Routes>
           </DataProvider>
