@@ -1,6 +1,8 @@
 
 import { Box, styled, FormControl, InputBase, Button, TextareaAutosize} from "@mui/material"
 import AddIcon from '@mui/icons-material/Add';
+import { categories } from "../../constants/data";
+import { useEffect, useState } from "react";
 
 const ImageContainer = styled(Box)`
   height: 280px;
@@ -14,9 +16,37 @@ const BannerImage = styled('img')({
 })
 
 
-
+const initialPost={
+    title:'',
+    description:'',
+    picture:'',
+    Username:'',
+    categories:'',
+    createdDate: new Date()
+}
 
 export default function CreatePost() {
+
+    const [post, setPost] = useState(initialPost);
+    const [file, setFile] = useState(''); //for picture file
+
+    useEffect(()=>{
+        const getImage = () => {
+            if(file){
+                const data = new FormData();
+                data.append("name", file.name);
+                data.append("file", file);
+            }
+        }
+        getImage();
+        //post.categories;
+    },[file])
+
+
+
+    const handleChange=(e)=>{
+        setPost({...post, [e.target.name]: e.target.value})
+    }
 
     const url = 'https://images.unsplash.com/photo-1543128639-4cb7e6eeef1b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wJTIwc2V0dXB8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80'
   return (
@@ -56,10 +86,13 @@ export default function CreatePost() {
             type="file" 
             id="fileInput" // the + icon from above label will use all the "choose file" properties
             style={{display: "none"}} //hides the tradtional input button
+            onChange={(e)=>setFile(e.target.files[0])}
         />
 
         {/* Title */}
         <InputBase
+            onChange={handleChange}
+            name="title"
             placeholder="Title"
             fullWidth
             style={{
@@ -86,6 +119,8 @@ export default function CreatePost() {
 
     {/* Content */}
     <TextareaAutosize
+        onChange={handleChange}
+        name="description"
         placeholder="Tell your story..."
         minRows={6}
         style={{
