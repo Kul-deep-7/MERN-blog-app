@@ -26,7 +26,7 @@ const initialPost={
     createdDate: new Date()
 }
 
-export default function CreatePost() {
+export default function CreatePost() { //this is component.
 
     const [post, setPost] = useState(initialPost);
     const [file, setFile] = useState(''); //for picture file
@@ -58,8 +58,8 @@ In short: “grab the category from the URL or use ‘All’ if none exists”
         }
         getImage();
         post.categories = location.search?.split('=')[1] || 'All'; //check above comment
-    },[file])
-
+    },[file]) //Only run this effect when file changes. Not on every render. Only when file goes from: null → img23.jpg or img23.jpg → another.png
+//useEffect runs after render, only when its dependencies change, and is used for work that shouldn’t happen while drawing UI.
 
 
     const handleChange=(e)=>{
@@ -163,3 +163,74 @@ In short: “grab the category from the URL or use ‘All’ if none exists”
     </ImageContainer>
   )
 }
+
+
+/*
+Timeline when app loads
+
+First render:
+file = null
+
+Component renders
+useEffect runs (first time)
+
+Inside effect:
+if (file) { ... }
+
+But file is null, so:
+getImage() does nothing
+no FormData created
+All good.
+
+
+Timeline when user selects a file 📁
+Step 1: user picks file
+setFile(fileObject)
+
+Step 2: React re-renders component
+UI redraws
+state now has the file
+
+Step 3: React checks useEffect (Only one render after state has the file)
+Did file change? → YES
+Run the effect
+
+Step 4: Effect runs
+getImage();
+Inside getImage:
+if (file) {
+  const data = new FormData();
+  data.append("name", file.name);
+  data.append("file", file);
+}
+
+Now:
+file exists
+FormData is created
+file name + file added
+This is preparing the file for upload.
+
+Why getImage is inside useEffect
+Because: file selection is a side effect
+you don’t want this logic running on every render
+only when file changes
+
+
+
+Important clarification 🚨
+
+useEffect does NOT:
+re-render the component
+refresh the page
+change state automatically
+It just runs code.
+
+
+
+“Whenever the file changes,
+after the screen updates,
+if there is a file,
+prepare it using FormData.”
+
+
+*/

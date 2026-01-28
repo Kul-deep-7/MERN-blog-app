@@ -1,0 +1,82 @@
+So what does “component renders” actually mean?
+
+Simple definition
+Component renders = React calls the component function again.
+
+
+Imagine this:
+
+function CreatePost() {
+  const [file, setFile] = useState(null);
+
+  useEffect(() => {
+    console.log("effect ran");
+  }, [file]);
+
+  return (
+    <>
+      <input type="file" onChange={e => setFile(e.target.files[0])} />
+    </>
+  );
+}
+
+When the app loads
+React calls CreatePost()
+file = null
+JSX is returned
+Screen is drawn
+useEffect runs
+
+👉 That is the first render
+
+When user selects a file
+Step-by-step timeline
+onChange fires
+setFile(newFile) is called
+React schedules an update
+React calls CreatePost() again
+Now file = newFile
+JSX is recalculated
+Screen updates if needed
+useEffect runs (because file changed)
+That second call is a re-render.
+
+Now answer your key questions
+❓ Does clicking a button cause render?
+
+Clicking the button itself? ❌ No.
+Calling setState inside it? ✅ Yes.
+
+So:
+
+onClick={handleSubmit}
+Only causes re-render if handleSubmit calls:
+setSomething(...)
+
+❓ Does only that component re-render?
+By default: yes.
+
+Only:
+
+the component whose state changed
+and its children
+Re-render.
+
+Parent and siblings do not re-render unless:
+their state/props changed
+or parent re-rendered
+
+Visual tree 🌳
+App
+ ├─ Header
+ ├─ CreatePost   ← file state here
+ │   └─ Input
+ └─ Footer
+
+
+If file changes in CreatePost:
+
+CreatePost re-renders
+Input re-renders
+Header ❌
+Footer ❌
