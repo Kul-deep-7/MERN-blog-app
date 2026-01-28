@@ -3,6 +3,7 @@ import { Box, styled, FormControl, InputBase, Button, TextareaAutosize} from "@m
 import AddIcon from '@mui/icons-material/Add';
 import { categories } from "../../constants/data";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const ImageContainer = styled(Box)`
   height: 280px;
@@ -29,6 +30,23 @@ export default function CreatePost() {
 
     const [post, setPost] = useState(initialPost);
     const [file, setFile] = useState(''); //for picture file
+    const location = useLocation(); //useLocation is a React Router hook. It gives you info about the current URL.
+    /* 
+Typical location object:
+    {
+        pathname: "/posts", (the route path)
+        search: "?category=Sports", (query string)
+        hash: "",
+        state: null, any data passed via navigation
+    }
+    So location.search is literally the query part of your URL.
+
+Looks at the URL: ?category=Sports
+Splits at = → ["?category", "Sports"]
+Takes [1] → "Sports"
+Fallback || 'All' → if no category exists, default is "All"
+In short: “grab the category from the URL or use ‘All’ if none exists”
+    */
 
     useEffect(()=>{
         const getImage = () => {
@@ -39,7 +57,7 @@ export default function CreatePost() {
             }
         }
         getImage();
-        //post.categories;
+        post.categories = location.search?.split('=')[1] || 'All'; //check above comment
     },[file])
 
 
@@ -86,8 +104,14 @@ export default function CreatePost() {
             type="file" 
             id="fileInput" // the + icon from above label will use all the "choose file" properties
             style={{display: "none"}} //hides the tradtional input button
-            onChange={(e)=>setFile(e.target.files[0])}
-        />
+            onChange={(e)=>setFile(e.target.files[0])} //e.target.files → a FileList (array-like). [0] → first selected file. “Take the file at index 0 and store it in state”
+        /> {/* <input type="file" />
+                → user selects file
+                → React stores file in state
+                → useEffect reacts to file change
+                → FormData is prepared
+                → file is sent to backend
+            */}
 
         {/* Title */}
         <InputBase
