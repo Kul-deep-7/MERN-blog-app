@@ -2,8 +2,10 @@
 import { Box, styled, FormControl, InputBase, Button, TextareaAutosize} from "@mui/material"
 import AddIcon from '@mui/icons-material/Add';
 import { categories } from "../../constants/data";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useLocation } from "react-router-dom";
+import { DataContext } from "../../context/DataProvider";
+import axios from "axios";
 
 const ImageContainer = styled(Box)`
   height: 280px;
@@ -28,9 +30,11 @@ const initialPost={
 
 export default function CreatePost() { //this is component.
 
+    const {account} = useContext(DataContext);
     const [post, setPost] = useState(initialPost);
     const [file, setFile] = useState(''); //for picture file
     const location = useLocation(); //useLocation is a React Router hook. It gives you info about the current URL.
+    
     /* 
 Typical location object:
     {
@@ -47,17 +51,30 @@ Takes [1] → "Sports"
 Fallback || 'All' → if no category exists, default is "All"
 In short: “grab the category from the URL or use ‘All’ if none exists”
     */
+    const url = post.picture? post.picture : 'https://images.unsplash.com/photo-1543128639-4cb7e6eeef1b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wJTIwc2V0dXB8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80'
+    //if post.picture me value hai to show the value or else show the hardcodes img
+
+    const API_URL = "http://localhost:7000"
 
     useEffect(()=>{
-        const getImage = () => {
+        const getImage =  async() => {
             if(file){
                 const data = new FormData();
                 data.append("name", file.name);
                 data.append("file", file);
+
+                const response = await axios.post(`${API_URL}/files/upload`,data,{
+                    headers:{
+                        'Content-Type': 'multipart/form-data'
+                    },
+                    withCredentials: true
+                })
+                post.picture = response.data //post.picture is from post state which has initial values
             }
         }
         getImage();
         post.categories = location.search?.split('=')[1] || 'All'; //check above comment
+        post.Username = account.Username
     },[file]) //Only run this effect when file changes. Not on every render. Only when file goes from: null → img23.jpg or img23.jpg → another.png
 //useEffect runs after render, only when its dependencies change, and is used for work that shouldn’t happen while drawing UI.
 
@@ -66,7 +83,6 @@ In short: “grab the category from the URL or use ‘All’ if none exists”
         setPost({...post, [e.target.name]: e.target.value})
     }
 
-    const url = 'https://images.unsplash.com/photo-1543128639-4cb7e6eeef1b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wJTIwc2V0dXB8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80'
   return (
     <ImageContainer>
       <BannerImage src={url} alt="banner" />
