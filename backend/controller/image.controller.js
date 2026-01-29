@@ -1,10 +1,45 @@
+import Post from "../models/post.models.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 const createPost = asyncHandler(async(req,res)=>{
+    const {title, description, categories} = req.body
 
+    if (!title || !description || !categories) {
+        throw new ApiError(400, "All fields are required");
+    }
+
+    const bannerImageLocalPath = req.file?.path.replace(/\\/g, "/");;
+
+    if(!bannerImageLocalPath){
+        throw new ApiError(400, "Image is required")
+    }
+
+    console.log("LOCAL PATH:", bannerImageLocalPath);
+
+    const bannerCloud = await uploadOnCloudinary(bannerImageLocalPath)
+
+    if(!bannerCloud){
+        throw new ApiError(500, "could not upload image. Please try again")
+    }
+
+    const post = await Post.create({
+        title,
+        description,
+        categories,
+        picture: bannerCloud.url,
+        author: req.user._id
+    })
+
+    return res
+    .status(201)
+    .json(
+        new ApiResponse(
+            201, post,"Post created successfully"
+        )
+    )
 })
 
 export {createPost}

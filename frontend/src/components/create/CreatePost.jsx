@@ -56,30 +56,31 @@ In short: “grab the category from the URL or use ‘All’ if none exists”
 
     const API_URL = "http://localhost:7000"
 
-    useEffect(()=>{
-        const getImage =  async() => {
-            if(file){
-                const data = new FormData();
-                data.append("name", file.name);
-                data.append("file", file);
-                data.append("title", post.title);
-                data.append("description", post.description);
-                data.append("categories", post.categories);
+//    
+// useEffect(()=>{
+//         const getImage =  async() => {
+//             if(file){
+//                 const data = new FormData();
+//                 data.append("name", file.name);
+//                 data.append("file", file);
+//                 data.append("title", post.title);
+//                 data.append("description", post.description);
+//                 data.append("categories", post.categories);
 
-                const response = await axios.post(`${API_URL}/files/upload`,data,{
-                    headers:{
-                        'Content-Type': 'multipart/form-data'
-                    },
-                    withCredentials: true
-                })
-                post.picture = response.data //post.picture is from post state which has initial values
-            }
-        }
-        getImage();
-        post.categories = location.search?.split('=')[1] || 'All'; //check above comment
-        post.Username = account.Username
-    },[file]) //Only run this effect when file changes. Not on every render. Only when file goes from: null → img23.jpg or img23.jpg → another.png
-//useEffect runs after render, only when its dependencies change, and is used for work that shouldn’t happen while drawing UI.
+//                 const response = await axios.post(`${API_URL}/files/upload`,data,{
+//                     headers:{
+//                         'Content-Type': 'multipart/form-data'
+//                     },
+//                     withCredentials: true
+//                 })
+//                 post.picture = response.data //post.picture is from post state which has initial values
+//             }
+//         }
+//         getImage();
+//         post.categories = location.search?.split('=')[1] || 'All'; //check above comment
+//         post.Username = account.Username
+//     },[file]) //Only run this effect when file changes. Not on every render. Only when file goes from: null → img23.jpg or img23.jpg → another.png
+// //useEffect runs after render, only when its dependencies change, and is used for work that shouldn’t happen while drawing UI.
 
 
     const handleChange=(e)=>{

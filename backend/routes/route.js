@@ -12,6 +12,6 @@ router.route("/login").post(loginUser)
 //protected route
 router.route("/me").get(verifyJWT, getMe)
 router.route("/logout").post(verifyJWT , logoutUser)
-router.route("/file/upload").post(upload, createPost )
+router.route("/create").post(upload.single("picture"),verifyJWT,createPost )
 
 export default router
