@@ -34,7 +34,7 @@ export default function CreatePost() { //this is component.
     const [post, setPost] = useState(initialPost);
     const [file, setFile] = useState(''); //for picture file
     const location = useLocation(); //useLocation is a React Router hook. It gives you info about the current URL.
-    
+
     /* 
 Typical location object:
     {
@@ -62,6 +62,9 @@ In short: “grab the category from the URL or use ‘All’ if none exists”
                 const data = new FormData();
                 data.append("name", file.name);
                 data.append("file", file);
+                data.append("title", post.title);
+                data.append("description", post.description);
+                data.append("categories", post.categories);
 
                 const response = await axios.post(`${API_URL}/files/upload`,data,{
                     headers:{
