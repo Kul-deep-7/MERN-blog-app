@@ -57,7 +57,7 @@ In short: “grab the category from the URL or use ‘All’ if none exists”
     const API_URL = "http://localhost:7000"
 
 //    
-// useEffect(()=>{
+//       useEffect(()=>{
 //         const getImage =  async() => {
 //             if(file){
 //                 const data = new FormData();
@@ -81,6 +81,48 @@ In short: “grab the category from the URL or use ‘All’ if none exists”
 //         post.Username = account.Username
 //     },[file]) //Only run this effect when file changes. Not on every render. Only when file goes from: null → img23.jpg or img23.jpg → another.png
 // //useEffect runs after render, only when its dependencies change, and is used for work that shouldn’t happen while drawing UI.
+
+const createPostHandler = async () => {
+    if (!file || !post.title || !post.description) {
+        alert("All fields are required!");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("title", post.title);
+    formData.append("description", post.description);
+    formData.append("categories", post.categories || 'All');
+    formData.append("picture", file);
+
+    try {
+        const token = localStorage.getItem("token"); // or wherever you store JWT
+        const res = await axios.post(
+            `${API_URL}/create`,
+            formData,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    "Authorization": `Bearer ${token}`
+                },
+                withCredentials: true
+            }
+        );
+        console.log("Post created:", res.data);
+        
+        setPost(initialPost);
+        setFile('');
+    } catch (err) {
+        console.error("Error creating post:", err.response?.data || err.message);
+    }
+};
+
+useEffect(() => {
+    setPost(prev => ({
+        ...prev,
+        categories: location.search?.split('=')[1] || 'All',
+        Username: account.Username
+    }));
+}, [location.search, account.Username]);
 
 
     const handleChange=(e)=>{
@@ -138,6 +180,7 @@ In short: “grab the category from the URL or use ‘All’ if none exists”
             onChange={handleChange}
             name="title"
             placeholder="Title"
+            value={post.title}
             fullWidth
             style={{
                 fontSize: '32px',
@@ -156,6 +199,7 @@ In short: “grab the category from the URL or use ‘All’ if none exists”
                 textTransform: 'none',
                 boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
             }}
+            onClick={createPostHandler}
         >
             PUBLISH
         </Button>
@@ -165,6 +209,7 @@ In short: “grab the category from the URL or use ‘All’ if none exists”
     <TextareaAutosize
         onChange={handleChange}
         name="description"
+        value={post.description}
         placeholder="Tell your story..."
         minRows={6}
         style={{
