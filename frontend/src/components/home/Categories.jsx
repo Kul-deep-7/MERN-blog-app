@@ -1,5 +1,5 @@
 
-import { Button, Table ,TableBody,TableCell, TableHead, TableRow, styled } from '@mui/material'
+import { Box, Button, Table ,TableBody,TableCell, TableHead, TableRow, styled, Alert } from '@mui/material'
 
 
 import React from 'react'
@@ -40,19 +40,26 @@ export default function Categories() {
 
   return (
     <>
+    <Box>
+            {!urlcategory ? (
+                <Alert severity="info" style={{ margin: '20px' }}>
+                    Select a category first to create a blog
+                </Alert>
+            ) : (
     <StyledLink to={`/create?categ=${urlcategory || ''}`}> {/* If urlCategory exists, use it.If it doesn’t, use an empty string instead.*/}
         <StyledButton>Create Blog</StyledButton> 
 {/*“If I click Create Blog after selecting a category, the URL changes to /create?category=Sports so the Create Post page knows which category the user selected. */}
     </StyledLink>
-        
+        )}
+        </Box>
 
         <Table>
             <TableHead>
                 <TableRow>
                     <TableCell>
-                        <StyledLink to='/'>
+                        
                             All Categories
-                        </StyledLink>
+                        
                     </TableCell>
                 </TableRow>
             </TableHead>

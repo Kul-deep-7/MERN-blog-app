@@ -10,18 +10,18 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        console.log(" Checking authentication...");
+        //console.log(" Checking authentication...");
         
         const res = await axios.get("http://localhost:7000/me", {
           withCredentials: true,
         });
         
-        console.log(" Auth response:", res.data);
+        // console.log(" Auth response:", res.data);
 
-        console.log("🔍 Full response structure:", res);
-        console.log("🔍 res.data:", res.data);
-        console.log("🔍 res.data.data:", res.data.data);
-        console.log("🔍 res.data.data.user:", res.data.data?.user);
+        // console.log("🔍 Full response structure:", res);
+        // console.log("🔍 res.data:", res.data);
+        // console.log("🔍 res.data.data:", res.data.data);
+        // console.log("🔍 res.data.data.user:", res.data.data?.user);
                 
         // Your ApiResponse wraps data in "data" property
         // So it's res.data.data.user, not res.data.user

@@ -42,7 +42,7 @@ const createPost = asyncHandler(async(req,res)=>{
     )
 })
 
-export {createPost}
+
 
 /* 
 STEP 1: User selects a file (Frontend)
@@ -183,5 +183,22 @@ Storage / Cloud
 URL
  ↓
 Frontend state
-
 */
+
+const getAllPosts = asyncHandler(async(req,res)=>{
+    const posts = await Post.find({})
+
+    if(!posts){
+        throw new ApiError(404, "No Posts found")
+    }
+
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(
+            200, posts, "Posts fetched successfully"
+        )
+    )
+})
+
+export {createPost, getAllPosts}

@@ -1,5 +1,5 @@
 
-import { Box, styled, FormControl, InputBase, Button, TextareaAutosize} from "@mui/material"
+import { Box, styled, FormControl, InputBase, Button, TextareaAutosize, Alert} from "@mui/material"
 import AddIcon from '@mui/icons-material/Add';
 import { categories } from "../../constants/data";
 import { useEffect, useState, useContext } from "react";
@@ -83,26 +83,29 @@ In short: “grab the category from the URL or use ‘All’ if none exists”
 // //useEffect runs after render, only when its dependencies change, and is used for work that shouldn’t happen while drawing UI.
 
 const createPostHandler = async () => {
-    if (!file || !post.title || !post.description) {
-        alert("All fields are required!");
+   if (!file || !post.title || !post.description || !post.categories) {
+        alert("All fields are required check your image, title & description again");
+        return;
+    }
+
+    if (post.description.length < 100) {
+        alert("Description must be at least 100 characters long!");
         return;
     }
 
     const formData = new FormData();
     formData.append("title", post.title);
     formData.append("description", post.description);
-    formData.append("categories", post.categories || 'All');
+    formData.append("categories", post.categories );
     formData.append("picture", file);
 
     try {
-        const token = localStorage.getItem("token"); // or wherever you store JWT
         const res = await axios.post(
             `${API_URL}/create`,
             formData,
             {
                 headers: {
                     "Content-Type": "multipart/form-data",
-                    "Authorization": `Bearer ${token}`
                 },
                 withCredentials: true
             }
@@ -135,7 +138,7 @@ useEffect(() => {
 
      <FormControl style={{ width: '100%', marginTop: '20px' }}>
     
-    {/* ROW: +  Title  Publish */}
+   
     <Box
         style={{
             display: 'flex',
@@ -175,7 +178,7 @@ useEffect(() => {
                 → file is sent to backend
             */}
 
-        {/* Title */}
+      
         <InputBase
             onChange={handleChange}
             name="title"
@@ -197,7 +200,8 @@ useEffect(() => {
                 padding: '8px 24px',
                 borderRadius: '20px',
                 textTransform: 'none',
-                boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
+                boxShadow: '0 4px 10px rgba(0,0,0,0.15)',
+                
             }}
             onClick={createPostHandler}
         >
@@ -205,7 +209,6 @@ useEffect(() => {
         </Button>
     </Box>
 
-    {/* Content */}
     <TextareaAutosize
         onChange={handleChange}
         name="description"
@@ -221,7 +224,9 @@ useEffect(() => {
             outline: 'none',
             resize: 'none'
         }}
+
     />
+
 
 </FormControl>
 
@@ -298,4 +303,24 @@ if there is a file,
 prepare it using FormData.”
 
 
+
+
+Imagine you're at a **restaurant menu website**:
+
+**useLocation = Looking at the ENTIRE receipt**
+```
+You get EVERYTHING:
+- Which page you're on: /menu
+- What filters you applied: ?category=Pizza&price=cheap
+- Extra notes: #reviews
+- Previous stuff: state
+
+"Give me ALL the info about where I am"
+```
+
+**useSearchParams = Looking at ONLY the filters**
+```
+You ONLY care about: ?category=Pizza&price=cheap
+
+"I just want to know what filters are active, nothing else"
 */

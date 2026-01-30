@@ -3,6 +3,7 @@ import { Grid , Box} from '@mui/material'
 //components
 import Banner from '../banner/Banner'
 import Categories from './Categories'
+import Posts from '../../Post.jsx/Posts'
 
 export default function Home() {
   return (
@@ -19,7 +20,7 @@ export default function Home() {
 
         {/* Right Content */}
         <Grid item xs={12} sm={9} lg={10}>
-          Posts
+          <Posts />
         </Grid>
       </Grid>
     </>
