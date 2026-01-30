@@ -186,7 +186,8 @@ Frontend state
 */
 
 const getAllPosts = asyncHandler(async(req,res)=>{
-    const posts = await Post.find({})
+    const posts = await Post.find({}).populate('author')
+    //populate() replaces a reference ID with the actual data from that referenced collection.
 
     if(!posts){
         throw new ApiError(404, "No Posts found")

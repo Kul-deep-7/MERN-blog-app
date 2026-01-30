@@ -45,7 +45,8 @@ export default function Post({ post }) {
                     {post.title}
                 </Typography>
                 <Typography variant="caption" color="textSecondary" sx={{ mb: 0.5 }}>
-                    By {post.Username}
+                    By {post.author?.Username /* because in backend i used populate() method to replace a reference ID with the actual data from that referenced collection 
+                                                    ans since post.author is an object now we have to find the Username from the object (mongoose schema)*/}
                 </Typography>
                 <Typography 
                     variant="caption" 
