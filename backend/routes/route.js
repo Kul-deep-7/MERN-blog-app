@@ -2,7 +2,7 @@ import {Router} from "express"
 import { getMe, loginUser, logoutUser, signupUser, } from "../controller/user.controller.js"
 import { verifyJWT } from "../middleware/auth.middleware.js"
 import { upload  } from "../middleware/multer.middleware.js"
-import { createPost, getAllPosts } from "../controller/image.controller.js"
+import { createPost, getAllPosts, getPostById } from "../controller/image.controller.js"
 
 const router = Router()
 
@@ -14,5 +14,42 @@ router.route("/me").get(verifyJWT, getMe)
 router.route("/logout").post(verifyJWT , logoutUser)
 router.route("/create").post(upload.single("picture"),verifyJWT,createPost )
 router.route("/posts").get(verifyJWT, getAllPosts)
+router.route("/posts/:id").get(verifyJWT, getPostById)
 
 export default router
+
+/* 
+urpose:
+Read the URL so you can decide what to render or fetch
+<Route path="/details/:id" element={<Detail />} />
+
+const { id } = useParams();
+
+What you do with it:
+call an API
+show a specific post
+update UI
+
+Frontend params are about navigation + UI
+
+
+Backend: req.params (Express)
+
+Purpose:
+Read the URL so you can decide what data to return or modify
+
+const getPostById = asyncHandler(async(req,res)=>{
+    const { id } = req.params
+    
+    const post = await Post.findById(id).populate('author')
+    ...
+
+router.route("/posts/:id").get(verifyJWT, getPostById)
+
+What you do with it:
+query MongoDB
+update/delete a record
+send JSON
+
+Backend params are about data + logic.
+*/

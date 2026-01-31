@@ -202,4 +202,58 @@ const getAllPosts = asyncHandler(async(req,res)=>{
     )
 })
 
-export {createPost, getAllPosts}
+const getPostById = asyncHandler(async(req,res)=>{
+    const { id } = req.params
+    
+    const post = await Post.findById(id).populate('author')
+    
+    if(!post){
+        throw new ApiError(404, "Post not found")
+    }
+
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(
+            200, post, "Post fetched successfully"
+        )
+    )
+})
+
+/* 
+urpose:
+Read the URL so you can decide what to render or fetch
+<Route path="/details/:id" element={<Detail />} />
+
+const { id } = useParams();
+
+What you do with it:
+call an API
+show a specific post
+update UI
+
+Frontend params are about navigation + UI
+
+
+Backend: req.params (Express)
+
+Purpose:
+Read the URL so you can decide what data to return or modify
+
+const getPostById = asyncHandler(async(req,res)=>{
+    const { id } = req.params
+    
+    const post = await Post.findById(id).populate('author')
+    ...
+
+router.route("/posts/:id").get(verifyJWT, getPostById)
+
+What you do with it:
+query MongoDB
+update/delete a record
+send JSON
+
+Backend params are about data + logic.
+*/
+
+export {createPost, getAllPosts, getPostById}
