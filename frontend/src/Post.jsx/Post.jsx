@@ -41,7 +41,16 @@ export default function Post({ post }) {
                 <Typography variant="caption" color="textSecondary">
                     {post.categories}
                 </Typography>
-                <Typography variant="subtitle2" sx={{ fontWeight: 'bold', mt: 0.5, mb: 0.5 }}>
+                <Typography variant="subtitle2" 
+                sx={{ fontWeight: 'bold', 
+                        mt: 0.5, mb: 0.5,
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        display: '-webkit-box',
+                        WebkitLineClamp: 1,
+                        WebkitBoxOrient: 'vertical'
+                    }}>
                     {post.title}
                 </Typography>
                 <Typography variant="caption" color="textSecondary" sx={{ mb: 0.5 }}>
@@ -50,11 +59,12 @@ export default function Post({ post }) {
                 </Typography>
                 <Typography 
                     variant="caption" 
-                    sx={{ 
+                    sx={{  //MUI's styling prop
+                        whiteSpace: 'nowrap',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         display: '-webkit-box',
-                        WebkitLineClamp: 2,
+                        WebkitLineClamp: 1,
                         WebkitBoxOrient: 'vertical'
                     }}
                 >

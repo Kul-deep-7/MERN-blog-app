@@ -57,8 +57,9 @@ export default function Categories() {
             <TableHead>
                 <TableRow>
                     <TableCell>
-                        
+                        <StyledLink to={`/`}>
                             All Categories
+                        </StyledLink>
                         
                     </TableCell>
                 </TableRow>

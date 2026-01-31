@@ -7,7 +7,7 @@ import Home from './components/home/Home';
 import Header from './components/header/Header';
 import ProtectedRoute from './routes/ProtectedRoute';
 import CreatePost from './components/create/CreatePost';
-
+import Detail from './components/details/Detail';
 
 
 //If a component should appear only when the user is authenticated, it belongs inside the ProtectedRoute layout, not directly in App.js. <Header /> is in ProtectedRoute.jsx
@@ -27,6 +27,10 @@ function App() {
 
                 <Route element={<ProtectedRoute />} >
                   <Route path='/create'element={<CreatePost />} />
+                  <Route path='/details/:id'element={<Detail />} /> 
+            {/* :id is dynamic not fixed means anything that comes after detail is a variable. Eg: /details/123 or /details/hello
+              The Detail component can access this variable using useParams hook from react-router-dom.
+              we need to Link Posts to Detail page when we click on a post. So in Posts.jsx we will wrap Post component inside a Link that points to /details/:id */}
                 </Route>
             </Routes>
           </DataProvider>
