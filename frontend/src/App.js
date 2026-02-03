@@ -31,7 +31,7 @@ function App() {
             {/* :id is dynamic not fixed means anything that comes after detail is a variable. Eg: /details/123 or /details/hello
               The Detail component can access this variable using useParams hook from react-router-dom.
               we need to Link Posts to Detail page when we click on a post. So in Posts.jsx we will wrap Post component inside a Link that points to /details/:id */}
-                </Route>
+                  </Route>
             </Routes>
           </DataProvider>
           </AuthProvider>

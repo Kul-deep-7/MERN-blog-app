@@ -3,6 +3,7 @@ import { getMe, loginUser, logoutUser, signupUser, } from "../controller/user.co
 import { verifyJWT } from "../middleware/auth.middleware.js"
 import { upload  } from "../middleware/multer.middleware.js"
 import { createPost, getAllPosts, getPostById } from "../controller/image.controller.js"
+import { deletePost, updatePost } from "../controller/update.controller.js"
 
 const router = Router()
 
@@ -15,6 +16,8 @@ router.route("/logout").post(verifyJWT , logoutUser)
 router.route("/create").post(upload.single("picture"),verifyJWT,createPost )
 router.route("/posts").get(verifyJWT, getAllPosts)
 router.route("/posts/:id").get(verifyJWT, getPostById)
+router.route('/posts/:id').delete(verifyJWT, deletePost)
+router.route('posts/:id').put(verifyJWT, updatePost)
 
 export default router
 
