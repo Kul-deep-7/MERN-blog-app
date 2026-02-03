@@ -3,7 +3,7 @@ import { Grid , Box} from '@mui/material'
 //components
 import Banner from '../banner/Banner'
 import Categories from './Categories'
-import Posts from '../../Post.jsx/Posts'
+import Posts from '../Post.jsx/Posts'
 
 export default function Home() {
   return (

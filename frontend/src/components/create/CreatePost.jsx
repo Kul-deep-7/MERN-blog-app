@@ -253,7 +253,7 @@ no FormData created
 All good.
 
 
-Timeline when user selects a file 📁
+Timeline when user selects a file 
 Step 1: user picks file
 setFile(fileObject)
 

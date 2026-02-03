@@ -18,10 +18,10 @@ export const AuthProvider = ({ children }) => {
         
         // console.log(" Auth response:", res.data);
 
-        // console.log("🔍 Full response structure:", res);
-        // console.log("🔍 res.data:", res.data);
-        // console.log("🔍 res.data.data:", res.data.data);
-        // console.log("🔍 res.data.data.user:", res.data.data?.user);
+        // console.log(" Full response structure:", res);
+        // console.log(" res.data:", res.data);
+        // console.log(" res.data.data:", res.data.data);
+        // console.log(" res.data.data.user:", res.data.data?.user);
                 
         // Your ApiResponse wraps data in "data" property
         // So it's res.data.data.user, not res.data.user

@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import { Box, Typography, Container, CircularProgress } from '@mui/material'
+import {Edit, Delete } from '@mui/icons-material';
+
+import {AuthContext} from '../../context/AuthContext'
 
 export default function Detail() {
     const { id } = useParams()  
@@ -9,6 +12,7 @@ export default function Detail() {
     const [post, setPost] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+    const {user} = useContext(AuthContext)
     const API_URL = "http://localhost:7000"
 
     useEffect(() => {
@@ -36,6 +40,11 @@ export default function Detail() {
     if (error) return <Typography color="error">Error: {error}</Typography>
     if (!post) return <Typography>Post not found</Typography>
 
+    // Check if logged-in user is the post author. (got user from AuthContext)
+    const isAuthor = user?._id === post.author?._id
+    console.log("Author check:", isAuthor)
+
+
     return (
         <Container maxWidth="md" sx={{ py: 4 }}>
             <Box sx={{ mb: 3 }}>
@@ -45,28 +54,53 @@ export default function Detail() {
                     style={{ width: '100%', maxHeight: '400px', objectFit: 'cover', borderRadius: '8px' }}
                 />
             </Box>
+            
+{/* if it is Author then true & move forward. If not an Author dont move forward */}
+            {isAuthor && ( 
+            <Box style={{float : 'right'}}>
+                <Edit style={{
+                    margin: '5px',
+                    padding: '5px',
+                    border: '1px solid #878787',
+                    borderRadius: '10px',
+                    cursor: 'pointer',
+                    color: 'blue'
+                    }}/>
+                <Delete style={{
+                    margin: '5px',
+                    padding: '5px',
+                    border: '1px solid #878787',
+                    borderRadius: '10px',
+                    cursor: 'pointer',
+                    color: 'red'
+                    }}/>
+            </Box>
+            )}
 
+        
+        <Box sx={{ maxWidth: '100%' }}>
             <Typography variant="caption" color="textSecondary" display="block" sx={{ mb: 1 }}>
                 {post.categories}
             </Typography>
 
-            <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2 }}>
+            <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2, wordWrap: 'break-word', overflowWrap: 'break-word'}}>
                 {post.title}
             </Typography>
 
             <Typography variant="body2" color="textSecondary" sx={{ mb: 3 }}>
-                By {post.author?.Username} • {new Date(post.createdAt).toLocaleDateString()}
+                By {post.author?.Username} • {new Date(post.createdAt).toLocaleString()}
             </Typography>
 
-            <Typography variant="body1" sx={{ lineHeight: 1.8 }}>
+            <Typography variant="body1" sx={{ lineHeight: 1.8 ,wordWrap: 'break-word', overflowWrap: 'break-word'}}>
                 {post.description}
             </Typography>
+        </Box>
         </Container>
     )
 }
 
 /* 
-urpose:
+Purpose:
 Read the URL so you can decide what to render or fetch
 <Route path="/details/:id" element={<Detail />} />
 
