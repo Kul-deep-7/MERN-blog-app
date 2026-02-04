@@ -5,6 +5,7 @@ import { Box, Typography, Container, CircularProgress } from '@mui/material'
 import {Edit, Delete } from '@mui/icons-material';
 
 import {AuthContext} from '../../context/AuthContext'
+import Comments from '../comments/Comments';
 
 export default function Detail() {
     const { id } = useParams()  
@@ -118,11 +119,16 @@ export default function Detail() {
                 {post.description}
             </Typography>
         </Box>
+
+        <Comments postId={id} /> {/*postId is passed as a prop because the Comments component needs to know which post's comments to fetch.
+        We pass postID props so we know which comment belong to which post
+*/}
         </Container>
     )
 }
 
 /* 
+
 Purpose:
 Read the URL so you can decide what to render or fetch
 <Route path="/details/:id" element={<Detail />} />

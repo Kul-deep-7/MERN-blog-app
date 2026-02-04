@@ -29,7 +29,7 @@ export default function Banner() {
   return (
     <Image>
         <Heading>BLOG</Heading>
-        <SubHeading>COOLDEEP</SubHeading>
+        <SubHeading>by KuLDEEP</SubHeading>
     </Image>
   )
 }

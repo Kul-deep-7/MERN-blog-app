@@ -4,6 +4,7 @@ import { verifyJWT } from "../middleware/auth.middleware.js"
 import { upload  } from "../middleware/multer.middleware.js"
 import { createPost, getAllPosts, getPostById } from "../controller/image.controller.js"
 import { deletePost, updatePost } from "../controller/update.controller.js"
+import { addComment, getPostComments, deleteComment } from "../controller/comment.controller.js"
 
 const router = Router()
 
@@ -18,6 +19,10 @@ router.route("/posts").get(verifyJWT, getAllPosts)
 router.route("/posts/:id").get(verifyJWT, getPostById)
 router.route('/posts/:id').delete(verifyJWT, deletePost)
 router.route('/posts/:id').put(verifyJWT, updatePost)
+router.route('/comments').post(verifyJWT,addComment)
+router.route('/comments/:postId').get(verifyJWT, getPostComments)
+router.route('/comments/:commentId').put(verifyJWT, deleteComment)
+
 
 export default router
 
