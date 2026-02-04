@@ -152,13 +152,15 @@ const loginUser = async function () {
             },
             withCredentials: true
         })
-        //console.log("Login Success:", response.data);
+        console.log("Login Success:", response.data.data); //helped alot cuz inital mount couldnt load some icons & /me endpoint wasnt getting hit
+        const userData = response.data.data?.user || null; //proper structure
+
 
          setAccount({
-            Username: response.data.Username,
-            Name: response.data.Name
+            Username: userData?.Username,
+            Name: userData?.Name
         });         //setAccount receives the response and updates the account state inside the Context, making it available to all components that consume it.
-        setUser(response.data)  //Now when users login, AuthContext updates immediately instead of waiting for a page refresh.
+        setUser(userData)  //Now when users login, AuthContext updates immediately instead of waiting for a page refresh.
         setLogin(loginInitialValue)
         navigate('/')
     } catch (error) {

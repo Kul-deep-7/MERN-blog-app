@@ -12,7 +12,9 @@ const deletePost = asyncHandler(async(req, res) => {
         throw new ApiError(404, "Post not found")
     }
     
-    if (post.author !== req.user._id) {
+    if (post.author.toString() !== req.user._id.toString()) {     
+        //post.author is a MongoDB ObjectId, so you need to convert it to string before comparing
+
         throw new ApiError(403, "Not authorized to delete this post")
     }
     
@@ -34,7 +36,7 @@ const updatePost = asyncHandler(async(req, res) => {
         throw new ApiError(403, "Not authorized to update this post")
     }
     //post.author is a MongoDB ObjectId, so you need to convert it to string before comparing
-    
+
     post.title = title
     post.description = description
     post.categories = categories
