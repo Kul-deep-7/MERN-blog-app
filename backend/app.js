@@ -20,6 +20,7 @@ app.use(cors(corsOptions))
 
 app.use(cookieParser());
 
+app.set("trust proxy", 1);
 
 
 

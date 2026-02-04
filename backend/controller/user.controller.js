@@ -120,7 +120,7 @@ const loggedInUser = await User.findById(user._id)
 const options = {
     httpOnly: true, 
     secure: true, //true in production & false in development
-    sameSite: lax 
+    sameSite: "none" 
 }
 
 
@@ -159,7 +159,7 @@ const logoutUser = asyncHandler(async(req,res)=>{
      const options = {
     httpOnly: true, 
     secure: true,
-    sameSite: lax, 
+    sameSite: "none", 
 }
 
     return res
