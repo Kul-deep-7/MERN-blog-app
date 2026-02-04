@@ -27,7 +27,7 @@ app.use(cookieParser());
 
 import router from "./routes/route.js";
 
-app.use("/", router) //http://localhost:7000/ ../signup
+app.use("/", router) //http://localhost:7000/(or https://mern-blog-app-ef2s.onrender.com) ../signup
 
 
 export default app;

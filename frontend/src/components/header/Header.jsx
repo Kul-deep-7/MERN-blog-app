@@ -20,7 +20,7 @@ const Container = styled(Toolbar)`
 
 export default function Header() {
     const navigate = useNavigate()
-    const API_URL = "http://localhost:7000"
+    const API_URL = "https://mern-blog-app-ef2s.onrender.com"
 
 
 const handleLogout = async function (e) {

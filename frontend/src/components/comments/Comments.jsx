@@ -9,7 +9,7 @@ export default function Comments({ postId }) {
     const [comments, setComments] = useState([]) //all comments of this post live here
     const [loading, setLoading] = useState(false)
     const [newComment, setNewComment] = useState('') //what user is typing in textbox
-    const API_URL = "http://localhost:7000"
+    const API_URL = "https://mern-blog-app-ef2s.onrender.com"
 
     // Fetch comments: When this page opens OR when postId changes, go get comments.
     useEffect(() => {

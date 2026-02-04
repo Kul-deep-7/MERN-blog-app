@@ -99,7 +99,7 @@ const Login = () => {
         setLogin({...login, [e.target.name]:e.target.value})
     }
 
-    const API_URL = "http://localhost:7000"
+    const API_URL = "https://mern-blog-app-ef2s.onrender.com"
 
 
    const signupUser = async () => {

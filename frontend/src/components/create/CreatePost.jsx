@@ -54,7 +54,7 @@ In short: “grab the category from the URL or use ‘All’ if none exists”
     const url = post.picture? post.picture : 'https://images.unsplash.com/photo-1543128639-4cb7e6eeef1b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wJTIwc2V0dXB8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80'
     //if post.picture me value hai to show the value or else show the hardcodes img
 
-    const API_URL = "http://localhost:7000"
+    const API_URL = "https://mern-blog-app-ef2s.onrender.com"
 
 //    
 //       useEffect(()=>{

@@ -16,7 +16,7 @@ export default function Detail() {
     const {user , loading: authLoading} = useContext(AuthContext)
     const [isAuthor, setIsAuthor] = useState(false)  
 
-    const API_URL = "http://localhost:7000"
+    const API_URL = "https://mern-blog-app-ef2s.onrender.com"
 
     useEffect(() => {
         const fetchPost = async () => {

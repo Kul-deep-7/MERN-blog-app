@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
       try {
         //console.log(" Checking authentication...");
         
-        const res = await axios.get("http://localhost:7000/me", {
+        const res = await axios.get("https://mern-blog-app-ef2s.onrender.com/me", {
           withCredentials: true,
         });
         

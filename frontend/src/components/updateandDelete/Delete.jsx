@@ -7,7 +7,7 @@ import { Typography } from '@mui/material'
 export default function Delete() {
     const { id } = useParams()
     const navigate = useNavigate()
-    const API_URL = "http://localhost:7000"
+    const API_URL = "https://mern-blog-app-ef2s.onrender.com"
     
     const handleDelete = async () => {
         if (window.confirm('Are you sure you want to delete this post?')) {

@@ -12,7 +12,7 @@ export default function Edit() {
     const { id } = useParams()
     const navigate = useNavigate()
     const [post, setPost] = useState(initialValue)  // ✅ Now it exists
-    const API_URL = "http://localhost:7000"
+    const API_URL = "https://mern-blog-app-ef2s.onrender.com"
 
     useEffect(() => {
         const fetchPost = async () => {
