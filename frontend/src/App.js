@@ -10,7 +10,7 @@ import CreatePost from './components/create/CreatePost';
 import Detail from './components/details/Detail';
 import Edit from './components/updateandDelete/Edit';
 import Delete from './components/updateandDelete/Delete';
-
+import About from './components/about/About';
 
 //If a component should appear only when the user is authenticated, it belongs inside the ProtectedRoute layout, not directly in App.js. <Header /> is in ProtectedRoute.jsx
 function App() {
@@ -25,6 +25,7 @@ function App() {
 
                 <Route element={<ProtectedRoute />} >
                   <Route path='/'element={<Home />} />
+                  <Route path='/about' element={<About />} />
                 </Route>
 
                 <Route element={<ProtectedRoute />} >
