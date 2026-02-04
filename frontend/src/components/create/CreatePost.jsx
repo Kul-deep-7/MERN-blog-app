@@ -98,6 +98,8 @@ const createPostHandler = async () => {
     formData.append("description", post.description);
     formData.append("categories", post.categories );
     formData.append("picture", file);
+    formData.append("Username", post.Username);
+     formData.append("createdDate", new Date().toISOString());
 
     try {
         const res = await axios.post(
