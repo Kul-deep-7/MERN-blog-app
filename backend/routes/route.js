@@ -17,7 +17,7 @@ router.route("/create").post(upload.single("picture"),verifyJWT,createPost )
 router.route("/posts").get(verifyJWT, getAllPosts)
 router.route("/posts/:id").get(verifyJWT, getPostById)
 router.route('/posts/:id').delete(verifyJWT, deletePost)
-router.route('posts/:id').put(verifyJWT, updatePost)
+router.route('/posts/:id').put(verifyJWT, updatePost)
 
 export default router
 

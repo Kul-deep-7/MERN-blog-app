@@ -33,6 +33,7 @@ const updatePost = asyncHandler(async(req, res) => {
     if (post.author.toString() !== req.user._id.toString()) {
         throw new ApiError(403, "Not authorized to update this post")
     }
+    //post.author is a MongoDB ObjectId, so you need to convert it to string before comparing
     
     post.title = title
     post.description = description

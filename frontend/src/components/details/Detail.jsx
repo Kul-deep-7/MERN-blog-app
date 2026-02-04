@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import axios from 'axios'
 import { Box, Typography, Container, CircularProgress } from '@mui/material'
 import {Edit, Delete } from '@mui/icons-material';
@@ -12,7 +12,9 @@ export default function Detail() {
     const [post, setPost] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
-    const {user} = useContext(AuthContext)
+    const {user , loading: authLoading} = useContext(AuthContext)
+    const [isAuthor, setIsAuthor] = useState(false)  
+
     const API_URL = "http://localhost:7000"
 
     useEffect(() => {
@@ -24,7 +26,7 @@ export default function Detail() {
                     },
                     withCredentials: true
                 })
-                console.log("Post detail:", response.data.data)
+                //console.log("Post detail:", response.data.data)
                 setPost(response.data.data)
             } catch (err) {
                 console.error("Error:", err)
@@ -36,13 +38,30 @@ export default function Detail() {
         fetchPost()
     }, [id])//“Run this effect when the component mounts,and again whenever id changes
 
+
+    useEffect(() => {
+        if (user && post) {
+            const isAuthorCheck = user._id === post.author?._id
+            setIsAuthor(isAuthorCheck)
+            console.log("User:", user._id)
+            console.log("Author:", post.author?._id)
+            console.log("Is Author:", isAuthorCheck)
+        }
+    }, [user, post])  
+
     if (loading) return <CircularProgress />
     if (error) return <Typography color="error">Error: {error}</Typography>
     if (!post) return <Typography>Post not found</Typography>
+    if (loading || authLoading) return <CircularProgress />
 
     // Check if logged-in user is the post author. (got user from AuthContext)
-    const isAuthor = user?._id === post.author?._id
-    console.log("Author check:", isAuthor)
+    //const isAuthor = user?._id === post.author?._id
+    // console.log("Author check:", isAuthor)
+    // console.log("User:", user)
+    // console.log("Post author:", post.author)
+    // console.log("User ID:", user?._id)
+    // console.log("Author ID:", post.author?._id)
+    // console.log("Are they equal?:", user?._id === post.author?._id)
 
 
     return (
@@ -56,26 +75,30 @@ export default function Detail() {
             </Box>
             
 {/* if it is Author then true & move forward. If not an Author dont move forward */}
-            {isAuthor && ( 
-            <Box style={{float : 'right'}}>
-                <Edit style={{
-                    margin: '5px',
-                    padding: '5px',
-                    border: '1px solid #878787',
-                    borderRadius: '10px',
-                    cursor: 'pointer',
-                    color: 'blue'
+           {isAuthor && ( 
+            <Box sx={{ display: 'flex', gap: 1, mb: 3 }}>
+                <Link to={`/edit/${id}`} style={{ textDecoration: 'none' }}>
+                    <Edit sx={{
+                        padding: '8px',
+                        border: '1px solid #878787',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        color: 'blue',
+                        '&:hover': { backgroundColor: '#e3f2fd' }
                     }}/>
-                <Delete style={{
-                    margin: '5px',
-                    padding: '5px',
-                    border: '1px solid #878787',
-                    borderRadius: '10px',
-                    cursor: 'pointer',
-                    color: 'red'
+                </Link>
+                <Link to={`/delete/${id}`} style={{ textDecoration: 'none' }}>
+                    <Delete sx={{
+                        padding: '8px',
+                        border: '1px solid #878787',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        color: 'red',
+                        '&:hover': { backgroundColor: '#ffebee' }
                     }}/>
+                </Link>
             </Box>
-            )}
+        )}
 
         
         <Box sx={{ maxWidth: '100%' }}>
