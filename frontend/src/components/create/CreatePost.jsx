@@ -115,6 +115,9 @@ const createPostHandler = async () => {
         setPost(initialPost);
         setFile('');
     } catch (err) {
+        console.log("Axios full error:", err);
+        console.log("Status:", err.response?.status);
+        console.log("Data:", err.response?.data);
         console.error("Error creating post:", err.response?.data || err.message);
     }
 };
