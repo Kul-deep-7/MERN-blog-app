@@ -3,11 +3,13 @@ import { useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { Typography } from '@mui/material'
+import API_BASE_URL from '../../constants/config'
+
 
 export default function Delete() {
     const { id } = useParams()
     const navigate = useNavigate()
-    const API_URL = "https://mern-blog-app-ef2s.onrender.com"
+    const API_URL = "API_BASE_URL"
     
     const handleDelete = async () => {
         if (window.confirm('Are you sure you want to delete this post?')) {

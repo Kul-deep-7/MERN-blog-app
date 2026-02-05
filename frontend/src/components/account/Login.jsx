@@ -6,7 +6,7 @@ import { AuthContext } from '../../context/AuthContext'
 import { useNavigate } from 'react-router-dom' 
 //useNavigate is a React hook that lets you programmatically change pages in your app.
 
-
+import API_BASE_URL from '../../constants/config'
 
 //styled in MUI is just “making your own component(customBox) with CSS attached to it. Instead of writing styles again and again, you lock them once and reuse
 //every time I call CustonBox styled component it will have these CSS... styled component name must start with CAPITAL. CSS needs semicolons
@@ -99,7 +99,7 @@ const Login = () => {
         setLogin({...login, [e.target.name]:e.target.value})
     }
 
-    const API_URL = "https://mern-blog-app-ef2s.onrender.com"
+    const API_URL = "API_BASE_URL"
 
 
    const signupUser = async () => {

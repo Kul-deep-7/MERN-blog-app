@@ -7,6 +7,9 @@ import {Edit, Delete } from '@mui/icons-material';
 import {AuthContext} from '../../context/AuthContext'
 import Comments from '../comments/Comments';
 
+import API_BASE_URL from '../../constants/config'
+
+
 export default function Detail() {
     const { id } = useParams()  
     //useParams is a React Router hook that lets a component read dynamic values from the URL.
@@ -16,7 +19,7 @@ export default function Detail() {
     const {user , loading: authLoading} = useContext(AuthContext)
     const [isAuthor, setIsAuthor] = useState(false)  
 
-    const API_URL = "https://mern-blog-app-ef2s.onrender.com"
+    const API_URL = "API_BASE_URL"
 
     useEffect(() => {
         const fetchPost = async () => {

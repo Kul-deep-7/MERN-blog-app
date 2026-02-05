@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { Container, TextField, TextareaAutosize, Button } from '@mui/material'
+import API_BASE_URL from '../../constants/config'
+
 
 const initialValue = {
     title: "",
@@ -12,7 +14,7 @@ export default function Edit() {
     const { id } = useParams()
     const navigate = useNavigate()
     const [post, setPost] = useState(initialValue)  // ✅ Now it exists
-    const API_URL = "https://mern-blog-app-ef2s.onrender.com"
+    const API_URL = "API_BASE_URL"
 
     useEffect(() => {
         const fetchPost = async () => {

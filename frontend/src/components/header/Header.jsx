@@ -2,6 +2,9 @@ import { AppBar, Toolbar, Typography, styled } from "@mui/material";
 import { Link , useNavigate} from "react-router-dom";
 import React from 'react'
 import axios from "axios";
+import API_BASE_URL from '../../constants/config'
+
+
 
 const Component=styled(AppBar)`
     background-color: #000;
@@ -20,7 +23,7 @@ const Container = styled(Toolbar)`
 
 export default function Header() {
     const navigate = useNavigate()
-    const API_URL = "https://mern-blog-app-ef2s.onrender.com"
+    const API_URL = "API_BASE_URL"
 
 
 const handleLogout = async function (e) {

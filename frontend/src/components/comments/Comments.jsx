@@ -3,13 +3,14 @@ import { Box, TextField, Button, Typography, CircularProgress, IconButton } from
 import { Delete as DeleteIcon } from '@mui/icons-material'
 import { AuthContext } from '../../context/AuthContext'
 import axios from 'axios'
+import API_BASE_URL from '../../constants/config'
 
 export default function Comments({ postId }) {
     const { user } = useContext(AuthContext)
     const [comments, setComments] = useState([]) //all comments of this post live here
     const [loading, setLoading] = useState(false)
     const [newComment, setNewComment] = useState('') //what user is typing in textbox
-    const API_URL = "https://mern-blog-app-ef2s.onrender.com"
+    const API_URL = "API_BASE_URL"
 
     // Fetch comments: When this page opens OR when postId changes, go get comments.
     useEffect(() => {

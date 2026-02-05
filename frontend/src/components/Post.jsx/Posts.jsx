@@ -2,6 +2,9 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import {Box, Grid, Typography} from '@mui/material'
 import { useSearchParams , Link} from 'react-router-dom'
+import API_BASE_URL from '../../constants/config'
+
+
 
 import Post from './Post'
 
@@ -16,7 +19,7 @@ const [posts, setPosts] = useState([])
     // So if the URL is: /?categ=Sports. Then categ === "Sports". If the URL is "/" category === null
     //what get() does is “From the URL, give me the value whose key is category.”
 
-    const API_URL = "https://mern-blog-app-ef2s.onrender.com"
+    const API_URL = "API_BASE_URL"
 
     useEffect(() => {
         const fetchData = async () => {

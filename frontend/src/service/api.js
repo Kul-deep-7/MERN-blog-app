@@ -1,7 +1,7 @@
 import axios from "axios"
 import { API_NOTIFICATION_MESSAGES, SERVICE_URLS } from "../constants/config.js"
 
-const API_URL = 'https://mern-blog-app-ef2s.onrender.com' //baxkend url
+const API_URL = 'API_BASE_URL' //baxkend url
 
 const axiosInstance = axios.create({
     baseURL: API_URL,
