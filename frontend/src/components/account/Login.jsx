@@ -182,7 +182,7 @@ const loginUser = async function () {
                 account === true ?
             <Wrapper>
                 <TextField variant="standard" onChange={onLoginValue} name='Username' label="Enter Username"/> {/*label is just a placeholder */}
-                <TextField variant="standard" onChange={onLoginValue} name='Password' label="Enter Password"/>
+                <TextField variant="standard" type="password" onChange={onLoginValue} name='Password' label="Enter Password"/>
                 {msg && (<Typography style={{ color: 'red', fontSize: '14px', marginTop: '10px' }}>{msg} </Typography>)}
                 <LoginButton variant="contained" onClick={loginUser}>Login</LoginButton>
                 <Text style={{textAlign : 'center'}}>OR</Text> {/*typography(text now) is basically <p> tag */}
@@ -193,7 +193,7 @@ const loginUser = async function () {
                 <TextField variant="standard" onChange={onInputValue} name='Name'  value={signUp.Name || ''} label="Enter Name"/> {/*label is just a placeholder */}
                 <TextField variant="standard" onChange={onInputValue} name='Username'   value={signUp.Username || ''} label="Enter UserName"/>{/* First, React looks at signUp.Name . If signUp.Name exists and is truthy, use it If it is undefined, null, or empty, fall back to ''. 
                                                                                                                                                 signUp is the state object, and Name is a key inside that object accessed using dot notation*/}
-                <TextField variant="standard" onChange={onInputValue} name='Password'  value={signUp.Password || ''}  label="Enter Password"/>
+                <TextField variant="standard" type="password" onChange={onInputValue} name='Password'  value={signUp.Password || ''}  label="Enter Password"/>
 
                  {error && ( <Typography style={{ color: 'red', fontSize: '14px', marginTop: '10px' }}>{error}</Typography>)}
 { /*Already have an error state and an onClick handler for signupUser. Inside signupUser, you run validation, and if any field is empty you call showError('Please fill all the details'), 
