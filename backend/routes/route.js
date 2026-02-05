@@ -21,7 +21,7 @@ router.route('/posts/:id').delete(verifyJWT, deletePost)
 router.route('/posts/:id').put(verifyJWT, updatePost)
 router.route('/comments').post(verifyJWT,addComment)
 router.route('/comments/:postId').get(verifyJWT, getPostComments)
-router.route('/comments/:commentId').put(verifyJWT, deleteComment)
+router.route('/comments/:commentId').delete(verifyJWT, deleteComment)
 
 
 export default router
