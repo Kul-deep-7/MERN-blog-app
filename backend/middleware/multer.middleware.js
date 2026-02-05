@@ -1,10 +1,11 @@
 import multer from 'multer';
+import os from 'os';
 //got the code from multer documentation
 
 const storage = multer.diskStorage({ //diskstorage: stores files on disk(server's disk). alternate memoryStorage: stores files in memory(RAM)
   destination: function (req, file, cb) { //this function decides where the file will be stored. 
                                         // parameters: req: incoming http req. contains user info, headers, auth data, etc. file: metadata about the file eg orgininalname,size,etc. cb: callbackfunction which tells multer destination path & success or failure.
-    cb(null, "./backend/public") //null: no error. "public/temp" folder where file is saved.
+    cb(null, os.tmpdir()) //null: no error. "public/temp" folder where file is saved.
   },
   filename: function (req, file, cb) { //This function decides WHAT the file will be named.
     cb(null, file.originalname )//null means no error. file.originalname: original name of the uploaded file.
