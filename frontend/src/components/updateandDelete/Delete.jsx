@@ -9,7 +9,7 @@ import API_BASE_URL from '../../constants/config'
 export default function Delete() {
     const { id } = useParams()
     const navigate = useNavigate()
-    const API_URL = "API_BASE_URL"
+    const API_URL = API_BASE_URL
     
     const handleDelete = async () => {
         if (window.confirm('Are you sure you want to delete this post?')) {

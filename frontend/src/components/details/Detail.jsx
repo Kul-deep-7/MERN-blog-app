@@ -19,7 +19,7 @@ export default function Detail() {
     const {user , loading: authLoading} = useContext(AuthContext)
     const [isAuthor, setIsAuthor] = useState(false)  
 
-    const API_URL = "API_BASE_URL"
+    const API_URL = API_BASE_URL
 
     useEffect(() => {
         const fetchPost = async () => {

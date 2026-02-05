@@ -14,7 +14,7 @@ export default function Edit() {
     const { id } = useParams()
     const navigate = useNavigate()
     const [post, setPost] = useState(initialValue)  // ✅ Now it exists
-    const API_URL = "API_BASE_URL"
+    const API_URL = API_BASE_URL
 
     useEffect(() => {
         const fetchPost = async () => {

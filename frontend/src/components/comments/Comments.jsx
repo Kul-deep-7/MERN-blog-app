@@ -10,7 +10,7 @@ export default function Comments({ postId }) {
     const [comments, setComments] = useState([]) //all comments of this post live here
     const [loading, setLoading] = useState(false)
     const [newComment, setNewComment] = useState('') //what user is typing in textbox
-    const API_URL = "API_BASE_URL"
+    const API_URL = API_BASE_URL
 
     // Fetch comments: When this page opens OR when postId changes, go get comments.
     useEffect(() => {

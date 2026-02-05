@@ -19,7 +19,7 @@ const [posts, setPosts] = useState([])
     // So if the URL is: /?categ=Sports. Then categ === "Sports". If the URL is "/" category === null
     //what get() does is “From the URL, give me the value whose key is category.”
 
-    const API_URL = "API_BASE_URL"
+    const API_URL = API_BASE_URL
 
     useEffect(() => {
         const fetchData = async () => {

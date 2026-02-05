@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
-import API_BASE_URL from '../../constants/config'
+import API_BASE_URL from '../constants/config'
 
 export const AuthContext = createContext();
 
@@ -8,12 +8,15 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+    const API_URL = API_BASE_URL
+
+
   useEffect(() => {
     const checkAuth = async () => {
       try {
         //console.log(" Checking authentication...");
         
-        const res = await axios.get("API_BASE_URL/me", {
+        const res = await axios.get(`${API_URL}/me`, {
           withCredentials: true,
         });
         

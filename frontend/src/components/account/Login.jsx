@@ -99,7 +99,7 @@ const Login = () => {
         setLogin({...login, [e.target.name]:e.target.value})
     }
 
-    const API_URL = "API_BASE_URL"
+    const API_URL = API_BASE_URL
 
 
    const signupUser = async () => {

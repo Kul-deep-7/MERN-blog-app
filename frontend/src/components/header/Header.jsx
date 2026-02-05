@@ -23,7 +23,7 @@ const Container = styled(Toolbar)`
 
 export default function Header() {
     const navigate = useNavigate()
-    const API_URL = "API_BASE_URL"
+    const API_URL = API_BASE_URL
 
 
 const handleLogout = async function (e) {
