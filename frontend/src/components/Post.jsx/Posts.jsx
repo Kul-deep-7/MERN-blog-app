@@ -112,7 +112,7 @@ const [posts, setPosts] = useState([])
                 ))
             ) : (
                 <Box sx={{ color: '#878787', margin: '30px 80px', fontSize: 18 }}>
-                    No data available
+                    No data available. Please select a different category to write a post or check back later.
                 </Box>
             )}
         </Grid>
