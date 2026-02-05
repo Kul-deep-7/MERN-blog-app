@@ -6,7 +6,7 @@ import { useEffect, useState, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import { DataContext } from "../../context/DataProvider";
 import axios from "axios";
-import API_BASE_URL from '../../constants/config'
+import API_BASE_URL from '../../config'
 
 
 const ImageContainer = styled(Box)`

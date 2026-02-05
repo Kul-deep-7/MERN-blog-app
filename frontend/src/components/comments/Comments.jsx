@@ -3,7 +3,7 @@ import { Box, TextField, Button, Typography, CircularProgress, IconButton } from
 import { Delete as DeleteIcon } from '@mui/icons-material'
 import { AuthContext } from '../../context/AuthContext'
 import axios from 'axios'
-import API_BASE_URL from '../../constants/config'
+import API_BASE_URL from '../../config'
 
 export default function Comments({ postId }) {
     const { user } = useContext(AuthContext)

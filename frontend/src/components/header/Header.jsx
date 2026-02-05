@@ -2,7 +2,7 @@ import { AppBar, Toolbar, Typography, styled } from "@mui/material";
 import { Link , useNavigate} from "react-router-dom";
 import React from 'react'
 import axios from "axios";
-import API_BASE_URL from '../../constants/config'
+import API_BASE_URL from '../../config'
 
 
 

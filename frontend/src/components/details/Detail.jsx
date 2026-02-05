@@ -7,7 +7,7 @@ import {Edit, Delete } from '@mui/icons-material';
 import {AuthContext} from '../../context/AuthContext'
 import Comments from '../comments/Comments';
 
-import API_BASE_URL from '../../constants/config'
+import API_BASE_URL from '../../config'
 
 
 export default function Detail() {

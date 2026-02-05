@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { Typography } from '@mui/material'
-import API_BASE_URL from '../../constants/config'
+import API_BASE_URL from '../../config'
 
 
 export default function Delete() {

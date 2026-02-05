@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import {Box, Grid, Typography} from '@mui/material'
 import { useSearchParams , Link} from 'react-router-dom'
-import API_BASE_URL from '../../constants/config'
+import API_BASE_URL from '../../config'
 
 
 
