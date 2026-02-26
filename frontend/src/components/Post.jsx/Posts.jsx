@@ -10,7 +10,7 @@ import Post from './Post'
 
 export default function Posts() {
 
-const [posts, setPosts] = useState([])
+    const [posts, setPosts] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
 
